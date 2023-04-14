@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;600&family=Tilt+Prism&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <link rel="stylesheet" href="./css/style.css" type="text/css">
+    <title>To Do List</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>To Do List</h1>
+        <div class="taskInput">
+            <form action="/todo" method="post" name="task">
+                <label for="task"></label>
+                <input style="width: 90%;" type="text" name="task" id="task" placeholder="new ToDo">
+                <br>
+                <div class="taskInputTwo">
+                    <label for="due" style="margin-left: 5px;">Due:</label>
+                    <input type="date" name="due" id="due">
+                    <label for="isUrgent">Urgent?</label>
+                    <input type="checkbox" name="isUrgent" id="isUrgent" value="true">
+                    <button class="addTask"> add task</button>
+                </div>
+            </form>
+        </div>
+        <h2>To Do:</h2>
+
+        <ul>
+            <% for (task of urgentTasks){%>
+
+                <li class="urgent">
+
+                    <span class="material-symbols-outlined star">
+                        star
+                    </span>
+                    <%= task.task %>
+                        <% if (task.due) {%> <span class="due">
+
+                                Due: <%= task.due %>
+                            </span>
+                            <%} %>
+                                <span class="icons">
+                                    <form action="/todo/<%= task._id %>?_method=patch" method="post">
+                                        <button> <span class="material-symbols-outlined incomplete">
+                                                Done </span></button>
+                                    </form>
+                                    <form action="/todo/<%= task._id %>?_method=delete" method="post">
+                                        <button> <span class="material-symbols-outlined trash">
+                                                delete
+                                            </span></button>
+
+
+                                    </form>
+                                </span>
+                </li>
+                <% } %>
+        </ul>
+
+        <ul>
+            <% for (task of tasksTodo){%>
+
+                <li class="notUrgent">
+                    <div class="notUrgentText">
+                        <%= task.task %>
+                            <% if (task.due) {%>
+                                Due: <%= task.due %>
+                                    <%} %>
+                    </div>
+                    <span class="icons">
+                        <form action="/todo/<%= task._id %>?_method=patch" method="post">
+                            <button> <span class="material-symbols-outlined incomplete">
+                                    Done </span></button>
+                        </form>
+                        <form action="/todo/<%= task._id %>?_method=delete" method="post">
+                            <button> <span class="material-symbols-outlined trash">
+                                    delete
+                                </span></button>
+
+
+                        </form>
+                    </span>
+                </li>
+                <% } %>
+        </ul>
+        <h2>Completed:</h2>
+        <ul>
+            <% for (task of completedTasks){%>
+
+                <li>
+                    <span class="material-symbols-outlined" style="color: green">
+                        done
+                    </span>
+                    <%= task.task %>
+                        <span class="icons">
+                            <form action="/todo/<%= task._id %>?_method=delete" method="post">
+                                <button> <span class="material-symbols-outlined trash">
+                                        delete
+                                    </span></button>
+
+
+                            </form>
+                        </span>
+                </li>
+                <% } %>
+        </ul>
+
+    </div>
+</body>
+
+</html>
